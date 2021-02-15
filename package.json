@@ -1,6 +1,6 @@
 {
   "name": "thub-rn-language-conversion",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "React Native module for android and ios to do languag conversion",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
