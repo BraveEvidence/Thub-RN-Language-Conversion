@@ -1,24 +1,58 @@
 package com.thubrnlanguageconversion
 
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.Promise
+import com.facebook.react.bridge.*
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
 
 class ThubRnLanguageConversionModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    override fun getName(): String {
-        return "ThubRnLanguageConversion"
-    }
+  private var languageConversionSuccessCallback: Callback? = null
+  private var languageConversionFailureCallback: Callback? = null
+  private var translator: Translator? = null
 
-    // Example method
-    // See https://reactnative.dev/docs/native-modules-android
-    @ReactMethod
-    fun multiply(a: Int, b: Int, promise: Promise) {
-    
-      promise.resolve(a * b)
-    
-    }
+  override fun getName(): String {
+    return "ThubRnLanguageConversion"
+  }
 
-    
+  private var lifecycleEventListener: LifecycleEventListener = object : LifecycleEventListener {
+    override fun onHostResume() {}
+    override fun onHostPause() {}
+    override fun onHostDestroy() {
+      translator?.close()
+    }
+  }
+
+  init {
+    reactContext.addLifecycleEventListener(lifecycleEventListener)
+  }
+
+  @ReactMethod
+  fun textConversion(text: String, sourceLanguage: String, targetLanguage: String, successCallback: Callback, failureCallback: Callback) {
+    languageConversionSuccessCallback = successCallback
+    languageConversionFailureCallback = failureCallback
+    convertText(text, sourceLanguage, targetLanguage)
+  }
+
+  private fun convertText(text: String, sourceLanguage: String, targetLanguage: String) {
+    val options = TranslatorOptions.Builder()
+      .setSourceLanguage(sourceLanguage)
+      .setTargetLanguage(targetLanguage).build()
+    translator = Translation.getClient(options)
+
+    val conditions = DownloadConditions.Builder().build()
+    translator?.downloadModelIfNeeded(conditions)
+      ?.addOnSuccessListener {
+        translator?.translate(text)?.addOnSuccessListener { translatedText ->
+          languageConversionSuccessCallback?.invoke(translatedText)
+        }?.addOnFailureListener { exception ->
+          languageConversionFailureCallback?.invoke(exception.message)
+        }
+      }?.addOnFailureListener { exception ->
+        languageConversionFailureCallback?.invoke(exception.message)
+      }
+  }
+
+
 }

@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
-import ThubRnLanguageConversion from 'thub-rn-language-conversion';
-
+import { StyleSheet, View, Text, NativeModules } from 'react-native';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const { ThubRnLanguageConversionModule } = NativeModules;
+  const [result, setResult] = React.useState();
 
   React.useEffect(() => {
-    ThubRnLanguageConversion.multiply(3, 7).then(setResult);
+    ThubRnLanguageConversionModule.textConversion(
+      'Hi How are you?',
+      'en',
+      'mr'
+    ).then(setResult);
   }, []);
 
   return (
