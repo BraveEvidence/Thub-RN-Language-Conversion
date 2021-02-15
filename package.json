@@ -1,6 +1,6 @@
 {
   "name": "thub-rn-language-conversion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React Native module for android and ios to do languag conversion",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/PritishSawant/thub-rn-language-conversion",
+  "repository": "https://github.com/PritishSawant/Thub-RN-Language-Conversion",
   "author": "Pritish Sawant <sawantpritish@gmail.com> (https://github.com/PritishSawant)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PritishSawant/thub-rn-language-conversion/issues"
+    "url": "https://github.com/PritishSawant/Thub-RN-Language-Conversion/issues"
   },
-  "homepage": "https://github.com/PritishSawant/thub-rn-language-conversion#readme",
+  "homepage": "https://github.com/PritishSawant/Thub-RN-Language-Conversion#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
