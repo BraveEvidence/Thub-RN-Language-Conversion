@@ -11,11 +11,26 @@ npm install thub-rn-language-conversion
 ## Usage
 
 ```js
-import ThubRnLanguageConversion from "thub-rn-language-conversion";
+For Android
+go to AndroidManifest.xml file and add following permission
 
-// ...
+<uses-permission android:name="android.permission.INTERNET" />
 
-const result = await ThubRnLanguageConversion.multiply(3, 7);
+In React Native Project
+
+import ThubRnLanguageConversion from 'thub-rn-language-conversion';
+
+ThubRnLanguageConversion.textConversion(
+  textTobeTraslated,
+  fromLanguage,
+  toLanguage,
+  (data) => {
+    console.log(data)
+  },
+  (errorMessage) => {
+    console.log(errorMessage);
+  }
+);
 ```
 
 ## Contributing
